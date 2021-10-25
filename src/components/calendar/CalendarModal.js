@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 const customStyles = {
     content: {
@@ -23,13 +24,14 @@ const nowPlusOneHour = now.clone().add(1, 'hours');
 export const CalendarModal = () => {
     const [dateStart, setDateStart] = useState(now.toDate());
     const [endDate, setEndDate] = useState(nowPlusOneHour.toDate());
+    const [titleValid, setTitleValid] = useState(true);
     const [formValues, setFormValues] = useState({
         title: 'Evento',
         notes: '',
         start: now.toDate(),
         end: nowPlusOneHour.toDate(),
     });
-    const { title, notes } = formValues;
+    const { title, notes, start, end } = formValues;
 
     const handleInputChange = ({ target }) => {
         setFormValues({
@@ -39,11 +41,11 @@ export const CalendarModal = () => {
     };
 
     const closeModal = () => {
-        //
+        // TODO: cerrar el modal
     };
 
     const handleStartChange = (e) => {
-        setDateStart(e.toString());
+        setDateStart(e);
         setFormValues({
             ...formValues,
             start: e,
@@ -51,7 +53,7 @@ export const CalendarModal = () => {
     };
 
     const handleEndChange = (e) => {
-        setEndDate(e.toString());
+        setEndDate(e);
         setFormValues({
             ...formValues,
             end: e,
@@ -60,7 +62,29 @@ export const CalendarModal = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        console.log(formValues);
+        console.log(start);
+        console.log(end);
+
+        const momentStart = moment(start);
+        const momentEnd = moment(end);
+
+        if (momentStart.isSameOrAfter(momentEnd)) {
+            return Swal.fire(
+                'Error',
+                'La fecha fin debe ser mayor a la fecha de inicio',
+                'error'
+            );
+        }
+
+        if (title.trim().length < 2) {
+            return setTitleValid(false);
+        } else {
+            setTitleValid(true);
+        }
+
+        // TODO: Guardar la información en la base de datos
+
+        closeModal();
     };
 
     return (
@@ -100,7 +124,9 @@ export const CalendarModal = () => {
                     <label>Titulo y notas</label>
                     <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${
+                            !titleValid && 'is-invalid'
+                        }`}
                         placeholder="Título del evento"
                         name="title"
                         autoComplete="off"
