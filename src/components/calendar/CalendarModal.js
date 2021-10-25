@@ -23,19 +23,44 @@ const nowPlusOneHour = now.clone().add(1, 'hours');
 export const CalendarModal = () => {
     const [dateStart, setDateStart] = useState(now.toDate());
     const [endDate, setEndDate] = useState(nowPlusOneHour.toDate());
+    const [formValues, setFormValues] = useState({
+        title: 'Evento',
+        notes: '',
+        start: now.toDate(),
+        end: nowPlusOneHour.toDate(),
+    });
+    const { title, notes } = formValues;
+
+    const handleInputChange = ({ target }) => {
+        setFormValues({
+            ...formValues,
+            [target.name]: target.value,
+        });
+    };
 
     const closeModal = () => {
         //
     };
 
     const handleStartChange = (e) => {
-        setDateStart(e);
-        console.log(e);
+        setDateStart(e.toString());
+        setFormValues({
+            ...formValues,
+            start: e,
+        });
     };
 
     const handleEndChange = (e) => {
-        setEndDate(e);
-        console.log(e);
+        setEndDate(e.toString());
+        setFormValues({
+            ...formValues,
+            end: e,
+        });
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        console.log(formValues);
     };
 
     return (
@@ -50,7 +75,7 @@ export const CalendarModal = () => {
         >
             <h1> Nuevo evento </h1>
             <hr />
-            <form className="container">
+            <form className="container" onSubmit={handleFormSubmit}>
                 <div className="form-group">
                     <label>Fecha y hora inicio</label>
                     <DateTimePicker
@@ -79,6 +104,8 @@ export const CalendarModal = () => {
                         placeholder="Título del evento"
                         name="title"
                         autoComplete="off"
+                        value={title}
+                        onChange={handleInputChange}
                     />
                     <small id="emailHelp" className="form-text text-muted">
                         Una descripción corta
@@ -92,6 +119,8 @@ export const CalendarModal = () => {
                         placeholder="Notas"
                         rows="5"
                         name="notes"
+                        value={notes}
+                        onChange={handleInputChange}
                     ></textarea>
                     <small id="emailHelp" className="form-text text-muted">
                         Información adicional
