@@ -72,6 +72,7 @@ body {
     padding: 15px;
     position: fixed;
     right: 25px;
+    cursor: pointer;
 }
 
 .fab-danger {
