@@ -9,4 +9,12 @@ export const types = {
     eventClearActive: '[events] Clear active event',
     eventUpdated: '[events] Event updated',
     eventDeleted: '[events] Event deleted',
+
+    /* Auth Events */
+    authChecking: '[auth] checking login state',
+    authCheckingFinish: '[auth] Finish checking login state',
+    authStartLogin: '[auth] Start login',
+    authLogin: '[auth] Login',
+    authStartRegister: '[auth] Start Register',
+    authLogout: '[auth] Logout',
 };
