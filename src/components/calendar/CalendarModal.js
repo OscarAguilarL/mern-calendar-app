@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import {
     eventClearActiveEvent,
     eventStartAddNew,
-    eventUpdated,
+    eventStartUpdate,
 } from '../../actions/events';
 
 const customStyles = {
@@ -104,7 +104,7 @@ export const CalendarModal = () => {
         }
 
         if (activeEvent) {
-            dispatch(eventUpdated({ ...formValues }));
+            dispatch(eventStartUpdate({ ...formValues }));
         } else {
             dispatch(eventStartAddNew({ ...formValues }));
         }
