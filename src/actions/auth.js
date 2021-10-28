@@ -75,3 +75,15 @@ const login = (user) => ({
     type: types.authLogin,
     payload: user,
 });
+
+export const startLogout = () => {
+    return (dispatch) => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('token-init-date');
+        dispatch(logout());
+    };
+};
+
+const logout = () => ({
+    type: types.authLogout,
+});
