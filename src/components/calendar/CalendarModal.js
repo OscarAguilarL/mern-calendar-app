@@ -9,8 +9,8 @@ import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import {
-    eventAddNew,
     eventClearActiveEvent,
+    eventStartAddNew,
     eventUpdated,
 } from '../../actions/events';
 
@@ -106,16 +106,7 @@ export const CalendarModal = () => {
         if (activeEvent) {
             dispatch(eventUpdated({ ...formValues }));
         } else {
-            dispatch(
-                eventAddNew({
-                    ...formValues,
-                    id: new Date().getTime(),
-                    user: {
-                        _id: '1234',
-                        name: 'Oscar',
-                    },
-                })
-            );
+            dispatch(eventStartAddNew({ ...formValues }));
         }
         setTitleValid(true);
         closeModal();
